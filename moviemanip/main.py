@@ -1,11 +1,28 @@
 from moviepy.editor import *
+import subprocess
+
 
 def writeclip(filein, start, end, fileout):
 	'''start and end are in seconds'''
 	clip = VideoFileClip(file).subclip(start, end)
 	clip.write_videofile(fileout)
 
-#file = 'M20170105_201403.mp4'
+
+def sec2frames():
+	file = 'M20170106_154802.mp4'
+	ffexe = 'ffmpeg.exe'
+	everyx = '3'
+	args = (ffexe, "-i", file, "-vf", "fps="+everyx, "nail\\%03d.png")
+	cmd = ffexe + " -i " + file + " -vf fps=1/" + everyx + " nail\\%03d.png"
+	print(cmd)
+	# extract a frame every x seconds - ffmpeg native instead
+	subprocess.call(cmd, shell=True)
+
+
+
+sec2frames()
+
+exit()
 file = 'M20170106_154802.mp4'
 startseconds = 30
 endseconds = 40
